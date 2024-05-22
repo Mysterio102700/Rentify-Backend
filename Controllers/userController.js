@@ -2,12 +2,12 @@ import md5 from "md5";
 import pool from "../middlewares/db.js";
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     const [results, fields] = await pool.execute(
-      "SELECT * FROM users WHERE username = ?",
-      [username]
+      "SELECT * FROM users WHERE email = ?",
+      [email]
     );
 
     if (results.length > 0) {
@@ -20,12 +20,10 @@ const login = async (req, res) => {
           message: "Login successful",
           user: {
             id: user.id,
-            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
-            pinno: user.pinno,
-            year: user.year,
-            semester: user.semester,
-            branch: user.branch,
+            userType: user.userType,
           },
         });
       } else {
